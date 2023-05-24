@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {RefreshControl, Text, View, Button, ScrollView, StyleSheet, Image, Pressable, ActivityIndicator, TextInput} from 'react-native';
+import { RefreshControl, Text, View, Button, ScrollView, StyleSheet, Image, Pressable, ActivityIndicator, TextInput} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import axios from "axios"
 import Basket from './Basket';
 import { useSelector, useDispatch } from 'react-redux'
@@ -38,7 +39,7 @@ function Home({navigation}){
     const basket= useSelector((state) => state.basket.data)
     const basketLenght = basket.length;
     const [textsearch, setTextsearch] = useState('')
-
+    const [selectrdCategory, setSelectrdCategory] = useState('Все');
     const menu = <Icon name="menu" size={30} color="black" />;
     const search = <Icon name="search-web" size={30} color="black" />;
 
@@ -93,7 +94,34 @@ function Home({navigation}){
                     </View>
 
                 </View>
-    
+                <View>
+                    <Picker
+                        selectedValue = {selectrdCategory}
+                        onValueChange={(itemValue, itemIndex) => setSelectrdCategory(itemValue)}
+                    >
+                        <Picker.Item label="Все" value="all" />
+                        <Picker.Item label="laptops" value="laptops" />
+                        <Picker.Item label="fragrances" value="fragrances" />
+                        <Picker.Item label="skincare" value="skincare" />
+                        <Picker.Item label="groceries" value="groceries" />
+                        <Picker.Item label="home-decoration" value="home-decoration" />
+                        <Picker.Item label="furniture" value="furniture" />
+                        <Picker.Item label="tops" value="tops" />
+                        <Picker.Item label="womens-dresses" value="womens-dresses" />
+                        <Picker.Item label="womens-shoes" value="womens-shoes" />
+                        <Picker.Item label="mens-shirts" value="mens-shirts" />
+                        <Picker.Item label="mens-shoes" value="mens-shoes" />
+                        <Picker.Item label="mens-watches" value="mens-watches" />
+                        <Picker.Item label="womens-watches" value="womens-watches" />
+                        <Picker.Item label="womens-bags" value="womens-bags" />
+                        <Picker.Item label="womens-jewellery" value="womens-jewellery" />
+                        <Picker.Item label="automotive" value="automotive" />
+                        <Picker.Item label="motorcycle" value="motorcycle" />
+                        <Picker.Item label="lighting" value="lighting" />
+
+                    </Picker>
+                    <Text>Abas</Text>
+                </View>
                 {
                 items.map((i)=>{
                     if(i.title.toLowerCase().indexOf(
@@ -102,7 +130,7 @@ function Home({navigation}){
 
                    
                         return(
-                            <Pressable key={i.id} style={style.view} onLongPress={()=>{
+                            <Pressable key={i.id} style={style.view} onPress={()=>{
                                 navigation.navigate('Card', {item: i.id})
                                 // navigation.navigate('Card')
                             }}>
