@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import {Text, View, Button} from 'react-native';
+import {Text, View, Button, ActivityIndicator} from 'react-native';
 import Basket from './Basket';
 import Header from './Header'
 import Home from './Home';
+import { HomeStack } from './Home';
 import { LoginStack } from './Auth/Login';
 import { Login } from './Auth/Login';
 import { Signup } from './Auth/Signup';
@@ -47,7 +48,7 @@ function Main({navigation}){
             tabBarInactiveTintColor: 'gray',
           })}
         >
-          <Tab.Screen name="Главная" component={Home} options={{tabBarBadge: 3, headerShown: false, }}/>
+          <Tab.Screen name="Главная" component={HomeStack} options={{tabBarBadge: 3, headerShown: false, }}/>
           <Tab.Screen name="Профиль" component={Profile}  options={{headerShown: false, title:"Профиль"}}/>
         </Tab.Navigator>
     )

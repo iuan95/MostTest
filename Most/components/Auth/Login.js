@@ -92,8 +92,12 @@ const LoginStackNav = createNativeStackNavigator();
 export const LoginStack = ()=>{
     return(
         <LoginStackNav.Navigator >
-            <LoginStackNav.Screen name="login" component={Login} />
-            <LoginStackNav.Screen name="signup" component={Signup}/>
+            <LoginStackNav.Screen name="login" component={Login} options={{
+                title: "Авторизация"
+            }}/>
+            <LoginStackNav.Screen name="signup" component={Signup} options={{
+                title: "Регистрация"
+            }}/>
         </LoginStackNav.Navigator>
     )
 

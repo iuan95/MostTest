@@ -17,3 +17,19 @@ export const itemsSlice = createSlice({
 })
 export default itemsSlice.reducer
 export const {add, addone} = itemsSlice.actions
+
+// {
+//     id: null, 
+//     title: null, 
+//     description: null, 
+//     price: null, 
+//     discountPercentage: null,
+//     rating: null,
+//     stock: null,
+//     brand: null,
+//     category: null,
+//     thumbnail: null,
+//     images: [],
+//     inBasket: false,
+
+// }

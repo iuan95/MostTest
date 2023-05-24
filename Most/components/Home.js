@@ -1,12 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {RefreshControl, Text, View, Button, ScrollView, StyleSheet, Image, Pressable} from 'react-native';
+import {RefreshControl, Text, View, Button, ScrollView, StyleSheet, Image, Pressable, ActivityIndicator, TextInput} from 'react-native';
 import axios from "axios"
 import Basket from './Basket';
 import { useSelector, useDispatch } from 'react-redux'
 import { decrement, increment } from './Store/counterSlice'
 import {add, addone} from './Store/itemsSlice';
 import {addBasket} from "./Store/basketSlice"
-
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import reactNativeIcons from 'react-native-vector-icons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Icon from '@mdi/react';
+import { mdiBasket } from '@mdi/js';
+import Itempage from './Itempage'
 
 function Home({navigation}){
     const [data, setData] = useState([])
@@ -29,65 +34,176 @@ function Home({navigation}){
         .catch((err)=>console.log(err))
     }, [])
     const [count, setCount] = useState(0)
-
     const items = useSelector((state) => state.items.data)
     const basket= useSelector((state) => state.basket.data)
     const basketLenght = basket.length;
-    console.log(basket)
-    console.log(basketLenght)
-    return(
-        <ScrollView  style={{backgroundColor: "white"}} 
-        refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-            <View style={style.header}>
-                <View >
-                    <Text style={{fontSize: 26}}>Most</Text>
-                </View>
-                <View>
-                    <Text>Корзина: {basketLenght}</Text>
+    const [textsearch, setTextsearch] = useState('')
 
-                </View>
+    const menu = <Icon name="menu" size={30} color="black" />;
+    const search = <Icon name="search-web" size={30} color="black" />;
+
+
+
+
+
+    if(items.length === 0){
+        return(
+            <View style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+
+            }}>
+                <ActivityIndicator size={'large'}  color={"orange"}/>
             </View>
+        )
+    }
+    else{
+        return(
+            <ScrollView  style={{backgroundColor: "white"}} 
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+                <View style={style.header}>
+                    <TextInput
+                    placeholder='Поиск'
+                    onChangeText={setTextsearch}
+                    style={{
+                        flex: 7,
+                        backgroundColor: "#d8d3cf",
+                        width: 290,
+                        height: 40,
+                        borderRadius: 5,
+                    }}
+                                      
+                    />
 
-            {
+                          {/* {search} */}
+                    <View style={{
+                        flex: 1,
+                        alignItems:"center",
+                        justifyContent: "center",
+                    }}>
+
+                        <Pressable>
+                            {menu}
+                        </Pressable>
+
+                    </View>
+
+                </View>
+    
+                {
                 items.map((i)=>{
-                    return(
-                        <View style={style.view}>
-                            <View>
-                                <Image
-                                    style={style.img}
-                                    source={{uri: `${i.images[0]}`}}
-                                />
-                            </View>
-                            <View style={{marginLeft: 10, flex: 1}}>
-                                <Text>{i.title}</Text>
-                                <Text>{i.price} $</Text>
-                            </View>
-                            <View style={style.viewright}>
-                                <Pressable style={style.btn}>
-                                    <Text>В корзину</Text>
-                                </Pressable>
-                                {/* <Button style={style.btn} title='в корзину'/> */}
-                            </View>
-                        </View>
-                    )
-                })
-            }
-            {/* //<Text>{items}</Text> */}
-            {/* <Button title='+1' onPress={()=>dispatch(addone())}/>
-            <Button title='+5' onPress={()=>dispatch(add(5))}/> */}
-            {/* <Button title={"Добавить"} titleStyle={{color: "black"}} onPress={()=>setCount(e=>e=e+1)}/>
-            <Text>{count}</Text>
-            <Button title={"Перейти к корзине"}  titleStyle={{color: "black"}} onPress={()=>navigation.navigate("Корзина")}/> */}
-        </ScrollView>
+                    if(i.title.toLowerCase().indexOf(
+                        textsearch.toLowerCase()
+                        ) === 0){
 
+                   
+                        return(
+                            <Pressable key={i.id} style={style.view} onLongPress={()=>{
+                                navigation.navigate('Card', {item: i.id})
+                                // navigation.navigate('Card')
+                            }}>
+                                <View>
+                                    <Image
+                                        style={style.img}
+                                        source={{uri: `${i.images[0]}`}}
+                                    />
+                                </View>
+                                <View style={{marginLeft: 10, flex: 1}}>
+                                    <Text>{i.title}</Text>
+                                    <Text>{i.price} $</Text>
+                                </View>
+                                <View style={style.viewright}>
+                                    <Pressable style={style.btn} onPress={()=>{
+                                        i.inBasket = true
+                                        dispatch(addBasket(i))
+                                    }}>
+                                        <Text>В корзину</Text>
+                                    </Pressable>
+                                </View>
+                            </Pressable>
+                        )
+                    }
+                        
+                    })
+                }
+            </ScrollView>
+        ) }}
 
-    )
-}
 export default Home;
 
+
+
+
+
+
+const HomeStackNav = createNativeStackNavigator()
+export const HomeStack = ({navigation}) =>{
+    const myIcon = <Icon name="shopping-outline" size={30} color="black" />;
+    const basket= useSelector((state) => state.basket.data)
+    const basketLenght = basket.length;
+    return(
+        <HomeStackNav.Navigator>
+            <HomeStackNav.Screen name= "Home" component={Home} 
+            options={{
+                title: "Главная",
+                headerStyle:{
+                    backgroundColor: "orange",
+
+                },
+                headerRight:()=>(
+                    <Pressable 
+                    
+                    onPress={()=>navigation.navigate("Basket")}
+                    style={{
+                        position: "relative",
+                        // backgroundColor: "white",
+                        width: 40,
+                    }}>
+                        <View style={{position: "relative"}}>
+                            <Text style={{
+                            flex: 1,
+                            position: "absolute",
+                            backgroundColor: "#ff310c",
+                            width: 20,
+                            height: 20,
+                            top: 0,
+                            right: 0,
+                            color: "white",
+                            borderRadius: 50,
+                            textAlign: "center",
+                            fontSize: 15,
+                            zIndex: 100,
+                        
+                        }}>{basketLenght}</Text>
+                            {myIcon}
+                        </View>
+                    </Pressable>
+              ),
+            }}
+                
+                />
+            <HomeStackNav.Screen name= "Basket" component={Basket}
+                options={
+                    {
+                        title: "Корзина"
+                    }
+                }
+            />
+            <HomeStackNav.Screen name= "Card" component={Itempage}
+                options={
+                    {
+                        title: "Товар"
+                    }
+                }
+            />
+
+        </HomeStackNav.Navigator>
+    )
+}
 const style = StyleSheet.create({
     header: {
         flex: 1,
@@ -136,6 +252,7 @@ const style = StyleSheet.create({
         
     }
 })
+
                             {/* <Text>{i.id}</Text> */}
                             {/* <Text>{i.price}</Text>
                             <Text>{i.discountPercentage}</Text>
