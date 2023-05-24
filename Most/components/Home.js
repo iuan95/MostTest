@@ -15,6 +15,9 @@ import { mdiBasket } from '@mdi/js';
 import Itempage from './Itempage'
 
 function Home({navigation}){
+
+
+
     const [data, setData] = useState([])
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
@@ -36,16 +39,13 @@ function Home({navigation}){
     }, [])
     const [count, setCount] = useState(0)
     const items = useSelector((state) => state.items.data)
+
     const basket= useSelector((state) => state.basket.data)
     const basketLenght = basket.length;
     const [textsearch, setTextsearch] = useState('')
-    const [selectrdCategory, setSelectrdCategory] = useState('Все');
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const menu = <Icon name="menu" size={30} color="black" />;
     const search = <Icon name="search-web" size={30} color="black" />;
-
-
-
-
 
     if(items.length === 0){
         return(
@@ -96,8 +96,8 @@ function Home({navigation}){
                 </View>
                 <View>
                     <Picker
-                        selectedValue = {selectrdCategory}
-                        onValueChange={(itemValue, itemIndex) => setSelectrdCategory(itemValue)}
+                        selectedValue = {selectedCategory}
+                        onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}
                     >
                         <Picker.Item label="Все" value="all" />
                         <Picker.Item label="laptops" value="laptops" />
@@ -124,11 +124,17 @@ function Home({navigation}){
                 </View>
                 {
                 items.map((i)=>{
+                    if(selectedCategory !== "all"){
+                        if(i.category != selectedCategory) return
+
+                    }
+                    // if(i.category === selectrdCategory){
+                    //     return i;
+                    // }
+
                     if(i.title.toLowerCase().indexOf(
                         textsearch.toLowerCase()
                         ) === 0){
-
-                   
                         return(
                             <Pressable key={i.id} style={style.view} onPress={()=>{
                                 navigation.navigate('Card', {item: i.id})
