@@ -16,7 +16,7 @@ function Basket({navigation}){
     return(
         <ScrollView>
             {
-            basket.map((i)=>{
+            basket.map((i, k)=>{
                 console.log(i.images)
                 return(
                     <View style={style.view}>
@@ -33,7 +33,7 @@ function Basket({navigation}){
                         <View style={style.viewright}>
                             <Pressable style={style.btn} onPress={()=>{
                                 i.inBasket = true
-                                dispatch(deleteBasket(i.id))
+                                dispatch(deleteBasket(k))
                             }}>
                                 <Text>Удалить</Text>
                             </Pressable>
