@@ -99,7 +99,7 @@ function Home({navigation}){
                         selectedValue = {selectedCategory}
                         onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}
                     >
-                        <Picker.Item label="Все" value="all" />
+                        <Picker.Item label="Все Категории" value="all" />
                         <Picker.Item label="laptops" value="laptops" />
                         <Picker.Item label="fragrances" value="fragrances" />
                         <Picker.Item label="skincare" value="skincare" />
@@ -120,7 +120,7 @@ function Home({navigation}){
                         <Picker.Item label="lighting" value="lighting" />
 
                     </Picker>
-                    <Text>Abas</Text>
+                    {/* <Text>Abas</Text> */}
                 </View>
                 {
                 items.map((i)=>{
@@ -134,7 +134,7 @@ function Home({navigation}){
 
                     if(i.title.toLowerCase().indexOf(
                         textsearch.toLowerCase()
-                        ) === 0){
+                        ) === 0 && i){
                         return(
                             <Pressable key={i.id} style={style.view} onPress={()=>{
                                 navigation.navigate('Card', {item: i.id})
@@ -159,6 +159,13 @@ function Home({navigation}){
                                     </Pressable>
                                 </View>
                             </Pressable>
+                        )
+                    }
+                    if(!i || i==null || i==""){
+                        return(
+                            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                                <Text>По выбранной категории ничего не найдено</Text>
+                            </View>
                         )
                     }
                         
