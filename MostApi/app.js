@@ -1,15 +1,22 @@
 const express = require("express")
 const axios = require('axios')
 const app = express()
-app.use('/', (req, res)=>{
-    console.log("asd")
+// const cors = require('cors')
+// const bodyParser = require("body-parser");
+const route = require('./router/router')
+const {db} = require('./database/data')
+
+app.use(express.urlencoded({extended:false}))
+app.use(express.json())
+app.use('/api', route)
+app.get('/', (req, res)=>{
+    res.json({message: "/"})
 })
 
-axios.get('https://dummyjson.com/products')
-    .then((res)=>{
-        console.log("Get: Запрос->")
-        console.log(res.data.products)
-    })
-    .catch((err)=>console.log(err))
-
-app.listen(3000, ()=>console.log("Запустились"))
+try{
+    db()
+    app.listen(7001, ()=>console.log("Запустились"))
+}
+catch(err){
+    console.log(err)
+}

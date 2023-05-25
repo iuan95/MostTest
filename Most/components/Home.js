@@ -4,14 +4,12 @@ import {Picker} from '@react-native-picker/picker';
 import axios from "axios"
 import Basket from './Basket';
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from './Store/counterSlice'
+
 import {add, addone} from './Store/itemsSlice';
 import {addBasket} from "./Store/basketSlice"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import reactNativeIcons from 'react-native-vector-icons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import Icon from '@mdi/react';
-import { mdiBasket } from '@mdi/js';
 import Itempage from './Itempage'
 
 function Home({navigation}){
@@ -46,7 +44,7 @@ function Home({navigation}){
     const [selectedCategory, setSelectedCategory] = useState('all');
     const menu = <Icon name="menu" size={30} color="black" />;
     const search = <Icon name="search-web" size={30} color="black" />;
-
+    const [v, setV] = useState(0)
     if(items.length === 0){
         return(
             <View style={{
@@ -123,18 +121,19 @@ function Home({navigation}){
                     {/* <Text>Abas</Text> */}
                 </View>
                 {
+
                 items.map((i)=>{
                     if(selectedCategory !== "all"){
-                        if(i.category != selectedCategory) return
+                        if(i.category != selectedCategory){
+                            return
+                        } 
 
                     }
-                    // if(i.category === selectrdCategory){
-                    //     return i;
-                    // }
+
 
                     if(i.title.toLowerCase().indexOf(
                         textsearch.toLowerCase()
-                        ) === 0 && i){
+                        ) === 0 ){
                         return(
                             <Pressable key={i.id} style={style.view} onPress={()=>{
                                 navigation.navigate('Card', {item: i.id})
@@ -161,13 +160,7 @@ function Home({navigation}){
                             </Pressable>
                         )
                     }
-                    if(!i || i==null || i==""){
-                        return(
-                            <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                                <Text>По выбранной категории ничего не найдено</Text>
-                            </View>
-                        )
-                    }
+
                         
                     })
                 }

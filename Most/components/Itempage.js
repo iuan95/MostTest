@@ -1,9 +1,12 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Basket from './Basket';
-import {View, Text, StyleSheet, Button, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, Button, ScrollView, Pressable} from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-function Itempage({route, navigation}){
+import {addBasket} from "./Store/basketSlice"
 
+
+function Itempage({route, navigation}){
+    const dispatch = useDispatch()
     const itemId = route.params.item
     const items = useSelector((state) => state.items.data)
     // console.log(items[0].id)
@@ -35,6 +38,20 @@ function Itempage({route, navigation}){
                 <Text style={style.text}>{item.stock}</Text>
                 <Text style={style.text}>{item.thumbnail}</Text>
                 <Text style={style.text}>{item.category}</Text>
+                <Pressable style={
+                    {height:40, 
+                        flex: 1, 
+                        backgroundColor:"orange",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: 5,
+
+                    
+                    }} 
+                    onPress={()=>{
+                    dispatch(addBasket(item))}}>
+                    <Text style={{fontSize: 17,}}>В корзину</Text>
+                </Pressable>
             </ScrollView>
         )
     }

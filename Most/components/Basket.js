@@ -11,8 +11,8 @@ function Basket({navigation}){
     const dispatch = useDispatch()
     const basket= useSelector((state) => state.basket.data)
     const basketLenght = basket.length;
-    // console.log(basketLenght)
-    // console.log(basket)
+    console.log(basketLenght)
+    console.log(basket)
     return(
         <ScrollView>
             {
