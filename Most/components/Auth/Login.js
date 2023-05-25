@@ -2,25 +2,50 @@ import { useState } from "react"
 import {ScrollView,View, Text, TextInput, SafeAreaView, StyleSheet, Button, TouchableOpacity} from "react-native"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Signup } from "./Signup";
-
+import axios from "axios"
+import { useSelector, useDispatch } from 'react-redux'
+import { adduser } from "../Store/userSlice"
 
 export const Login = ({navigation}) =>{
+
+    const [answer, setAnswer] = useState('')
+    const dispatch = useDispatch()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    function hundleSubmit(){
+        axios.post('http://10.0.2.2:3007/api/login', {email, password})
+            .then((res)=>{
+                dispatch(adduser({email: res.data.email, token: res.data.accessToken, refToken: res.data.refreshToken}))
+            })
+            .catch(err=>console.log(err))
+            .finally(()=>{
+                setEmail("")
+                setPassword("")
+            })
+    }
+
+
+
+
+
+
+
+
     return(
         <ScrollView style={style.view}>
             <View style={style.SafeAreaView}>
                 <Text style={style.text}>Войти</Text>
                 <TextInput style = {style.input}
                     placeholder="email"
-                    // onChangeText={email}
-                    // value={email}
+                    onChangeText={setEmail}
+                    value={email}
                 />
                 <TextInput style = {style.input}
-
-                    // onChangeText={password}
-                    // value={password}
+                    onChangeText={setPassword}
+                    value={password}
                     placeholder="password"
                 />
-                <TouchableOpacity style={style.btn1} >
+                <TouchableOpacity style={style.btn1}  onPress={hundleSubmit} >
                     <Text style={style.btntext1}>Войти</Text>
                </TouchableOpacity>
                 <Text>У вас не аккаунта?</Text>

@@ -57,7 +57,7 @@ router.post('/login',async (req, res, next)=>{
     user1.refreshToken = refreshToken
     user1.save()
     res.send({
-        user: email,
+        email: email,
         accessToken: accessToken,
         refreshToken: refreshToken
     })

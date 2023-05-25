@@ -1,8 +1,7 @@
 //Профиль
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { decrement, increment } from './Store/counterSlice'
 import {TextInput, StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import axios from 'axios';
 function Profile(){

@@ -1,18 +1,27 @@
 import { useState } from "react"
+import { useSelector, useDispatch } from 'react-redux'
+import { adduser } from "../Store/userSlice"
 import {ScrollView,View, Text, TextInput, SafeAreaView, StyleSheet, Button, TouchableOpacity} from "react-native"
 import axios from "axios"
 
-
+// dispatch(adduser({email, password}))
 export const Signup = ({navigation}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    function hundleSubmit(){
+    const [answer, setAnswer] = useState('')
+
+    async function hundleSubmit({navigation}){
         console.log("asdasd")
-        axios.post('http://10.0.2.2:3007/api/signup', {email, password})
-            .then((res)=>console.log(res))
-            .catch(err=>console.log(err))
         setEmail("")
         setPassword("")
+        axios.post('http://10.0.2.2:3007/api/signup', {email, password})
+            .then((res)=>setAnswer(e=>e=res.message))
+            .then(()=>{
+                navigation.navigate('login')
+            })
+            .catch(err=>console.log(err))
+
+        
     }
 
     return(
@@ -25,16 +34,22 @@ export const Signup = ({navigation}) =>{
                     value={email}
                 />
                 <TextInput style = {style.input}
-
                     onChangeText={setPassword}
                     value={password}
                     placeholder="password"
                 />
+                {
+                    answer?(
+                        <Text style={{fontSize: 16,
+                        
+                        }}>{answer}</Text>
+                    ):
+                        null
+                }
                 <TouchableOpacity style={style.btn} onPress={hundleSubmit}>
                     <Text style={style.btntext}>Зарегистрироваться</Text>
                </TouchableOpacity>
-               <Text>{email}</Text>
-               <Text>{password}</Text>
+
              
             </View>
         </ScrollView>
