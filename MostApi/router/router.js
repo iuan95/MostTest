@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt')
 
 router.post('/signup', async (req, res, next)=>{
     const {email, password} = req.body
+    console.log(email)
+    console.log(password)
     const mail0 = email.split('@')[1]
     const mail1 = email.split('@')[1]
     const mail2 = email.split('.')[1]

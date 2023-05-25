@@ -3,10 +3,10 @@ export const userSlice = createSlice({
     name: "user",
     initialState: {
 
-        email: "qweadw@.mail.ru",
-        firstname: "Alekseev",
-        name: "Ayaan",
-        phone: "89659960778",
+        email: null,
+        firstname: null,
+        name: null,
+        phone: null,
         token: null,
      
     },
@@ -16,7 +16,6 @@ export const userSlice = createSlice({
             state.firstname = action.payload.firstname || null
             state.name = action.payload.name || null
             state.phone = action.payload.phone || null
-            state.sex = action.payload.sex
             state.adress = action.payload.adress
             state.token = action.payload.token
         },
