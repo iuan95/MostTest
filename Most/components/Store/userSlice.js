@@ -4,9 +4,10 @@ export const userSlice = createSlice({
     initialState: {
 
         email: null,
-        firstname: null,
+        surname: null,
         name: null,
         phone: null,
+        age: null,
         token: null,
         refToken: null,
      
@@ -14,13 +15,20 @@ export const userSlice = createSlice({
     reducers:{
         adduser: (state, action) =>{
             state.email = action.payload.email
-            state.firstname = action.payload.firstname
-            state.name = action.payload.name 
+            state.surname = action.payload.surname 
+            state.name = action.payload.name
             state.phone = action.payload.phone 
-            state.adress = action.payload.adress 
+            state.age = action.payload.age
+            state.refToken = action.payload.refToken 
             state.token = action.payload.token  
+        },
+        edituser: (state, action) =>{
+            state.surname = action.payload.surname 
+            state.name = action.payload.name
+            state.phone = action.payload.phone 
+            state.age = action.payload.age
         },
     }
 })
-export const {adduser} = userSlice.actions
+export const {adduser, edituser} = userSlice.actions
 export default userSlice.reducer

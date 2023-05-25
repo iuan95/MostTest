@@ -11,7 +11,19 @@ const person = new Schema({
       },
     refreshToken: {
         type: String,
-    }
+    },
+    surname: {
+        type: String,
+    },
+    name: {
+        type: String,       
+    },
+    age: {
+        type: String,       
+    },
+    phone: {
+        type: String,       
+    },
 })
 const user = model("users", person)
 module.exports = user;

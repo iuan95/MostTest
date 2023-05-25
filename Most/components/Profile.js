@@ -1,29 +1,57 @@
-//Профиль
 
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import {TextInput, StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import axios from 'axios';
+import {edituser} from "./Store/userSlice"
 function Profile(){
     const user = useSelector((state) => state.user)
     const [edit, setEdit] = useState(false)
     const dispatch = useDispatch()
-    const [email, setEmail] = useState('')
-    const [firstname, setFirstname] = useState('')
+    const [surname, setSurname] = useState('')
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
-    const [data, setData] = useState('')
+    const [age, setAge] = useState('')
+    const [status, setSetstatus] = useState('')
+
     function hundleSubmit(){
-        setEdit(false)
+        axios.post("http://10.0.2.2:3007/api/editprofile",{
+            name: name,
+            surname: surname,
+            phone: phone,
+            age: age
+        },
+        {
+            headers:{
+                authorization: `Bearer: ${user.token}`
+            }
+        }
+        )
+        .then((res)=>{
+            if(res.data.message === "успешно"){
+                dispatch(edituser({surname: surname, name: name, phone: phone, age: age}))
+            }
+            else setSetstatus(e=>e=res.data.message)
+    
+        })
+        .catch(err=>console.log(err))
+        .finally(()=>setEdit(false))
+
     }
     if(!edit){
         return(
             <ScrollView style={style.scr}>
                 <View>
                     <Text style={style.txt}>Почта: {user.email}</Text>
-                    <Text style={style.txt}>Фамилия: {user.firstname}</Text>
+                    <Text style={style.txt}>Фамилия: {user.surname}</Text>
                     <Text style={style.txt}>Имя: {user.name}</Text>
                     <Text style={style.txt}>Телефон: {user.phone}</Text>
+                    <Text style={style.txt}>Возраст: {user.age}</Text>
+                    {
+                        status?(
+                            <Text>{status}</Text>
+                        ):null
+                    }
                     <Button title='Редактировать' onPress={()=>setEdit(true)}/>
                 </View>
             </ScrollView>
@@ -33,13 +61,12 @@ function Profile(){
         return(
         <ScrollView style={style.scr}>
             <View>
-                <TextInput placeholder='Почта: ' style={style.txt} defaultValue={user.email} onChangeText={(e)=>setEmail(e)}/>
-                <TextInput placeholder='Фамилия: ' style={style.txt} defaultValue={user.firstname} onChangeText={(e)=>setFirstname(e)}/>
-                <TextInput placeholder='Имя:' style={style.txt} defaultValue={user.name} onChangeText={(e)=>setName(e)}/>
-                <TextInput placeholder='Телефон: ' style={style.txt} defaultValue={user.phone} onChangeText={(e)=>setPhone(e)}/>
-
+                <Text style={style.txt}>{user.email} </Text>
+                <TextInput placeholder='Фамилия: ' style={style.txt} defaultValue={user.surname} onChangeText={setSurname}/>
+                <TextInput placeholder='Имя:' style={style.txt} defaultValue={user.name} onChangeText={setName}/>
+                <TextInput placeholder='Телефон: ' style={style.txt} defaultValue={user.phone} onChangeText={setPhone}/>
+                <TextInput placeholder='Возраст: ' style={style.txt} defaultValue={user.age} onChangeText={setAge}/>
                 <Button title='Сохранить' onPress={hundleSubmit}/>
-
             </View>
         </ScrollView>
         )

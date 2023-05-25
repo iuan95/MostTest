@@ -95,6 +95,32 @@ router.post('/refresh', async (req, res)=>{
 
 })
 
+router.post('/editprofile', uVer, async (req, res)=>{
+    try{
+        const {name, surname, age, phone} = req.body
+        console.log(req.user.email)
+        const editData = await user.findOne({email: req.user.email})
+        editData.surname = surname
+        editData.name = name
+        editData.phone = phone
+        editData.age = age
+        await editData.save()
+
+        console.log(name)
+        console.log(surname)
+        console.log(phone)
+        console.log(age)
+        res.status(201)
+        .send({message: "успешно"})
+    }
+    catch(err){
+        console.log(err)
+        res.status(402)
+        .send({message: "Произошло ошибка"})
+    }
+
+})
+
 
 router.post('/logout', uVer,  async (req, res, next)=>{
     const person = req.body.email;
