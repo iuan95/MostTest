@@ -15,15 +15,16 @@ router.post('/signup', async (req, res, next)=>{
     const mail1 = email.split('@')[1]
     const mail2 = email.split('.')[1]
     const passlenght = password.length
-    if (!email || !password || !mail1 || !mail2 || !mail0 ||passlenght < 8){
+    if (!email || !password || !mail1 || !mail2 || !mail0 ||passlenght < 6){
         return res
             .status(401)
-            .send({mess: "Не корректные данные"})
+            .send({message: "Не корректные данные"})
     }
     try{
         const IsUser = await user.findOne({email:email})
         if (IsUser){
-            res.status(401).json({message: "Такой пользователь уже есть!"})
+            console.log("Такой пользователь уже есть!")
+            return res.send({message: "Такой пользователь уже есть!"})
         }
         else {
             const hashedPassword = bcrypt.hashSync(password, 10)
@@ -44,7 +45,7 @@ router.post('/signup', async (req, res, next)=>{
 router.post('/login',async (req, res, next)=>{
     const {email, password} = req.body;
     const user1 =  await user.findOne({email: email})
-    const hashedPass = await bcrypt.compare(password, user1.password);
+    const hashedPass = bcrypt.compare(password, user1.password);
 
     if(!user1){
         return res.send("Пользователь не найден")
@@ -111,7 +112,7 @@ router.post('/editprofile', uVer, async (req, res)=>{
         console.log(phone)
         console.log(age)
         res.status(201)
-        .send({message: "успешно"})
+        .send({name: name, surname:surname, phone: phone,age: age, message: "Изменения сохранены"})
     }
     catch(err){
         console.log(err)
@@ -120,15 +121,33 @@ router.post('/editprofile', uVer, async (req, res)=>{
     }
 
 })
-
+router.get('/getuserdata', uVer, (req, res)=>{
+    const person = req.user.email;
+    user.findOne({email:person})
+    .then((user)=>{
+        console.log(user.email)
+        res.status(200).send({
+            surname: user.surname,
+            name: user.name,
+            phone: user.phone,
+            age: user.age,
+        })
+    })
+    .catch((err)=>{
+        console.log(err)
+        res.status(400)
+        .send({message: "Произошло ошибка"})
+    })
+})
 
 router.post('/logout', uVer,  async (req, res, next)=>{
     const person = req.body.email;
     const delRefresh = await user.findOne({email:person})
     delRefresh.refreshToken = null;
-    // refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+    await delRefresh.save()
     res.status(200).json("Вы вышли из аккаунта.");
 })
+
 router.get('/home', uVer, (req, res)=>{
     res.send('Home')
 })

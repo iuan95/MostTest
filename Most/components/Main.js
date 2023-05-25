@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {Text, View, Button, ActivityIndicator} from 'react-native';
 import Basket from './Basket';
 import Header from './Header'
@@ -12,14 +12,21 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
 
+
+
+
 function Main({navigation}){
   const count1 = useSelector((state) => state.user.email)
+  
 
+
+  
     if(!count1){
       return(
         <Stack.Navigator screenOptions={{ headerShown: false }}>

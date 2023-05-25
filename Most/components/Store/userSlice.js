@@ -28,7 +28,10 @@ export const userSlice = createSlice({
             state.phone = action.payload.phone 
             state.age = action.payload.age
         },
+        logout: (state) =>{
+            state.email = null
+        }
     }
 })
-export const {adduser, edituser} = userSlice.actions
+export const {adduser, edituser, logout} = userSlice.actions
 export default userSlice.reducer

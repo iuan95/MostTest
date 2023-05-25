@@ -18,19 +18,8 @@ export const Login = ({navigation}) =>{
                 dispatch(adduser({email: res.data.email, token: res.data.accessToken, refToken: res.data.refreshToken}))
             })
             .catch(err=>console.log(err))
-            .finally(()=>{
-                setEmail("")
-                setPassword("")
-            })
+
     }
-
-
-
-
-
-
-
-
     return(
         <ScrollView style={style.view}>
             <View style={style.SafeAreaView}>

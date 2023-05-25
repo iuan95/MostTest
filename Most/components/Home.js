@@ -4,7 +4,7 @@ import {Picker} from '@react-native-picker/picker';
 import axios from "axios"
 import Basket from './Basket';
 import { useSelector, useDispatch } from 'react-redux'
-
+import { edituser } from './Store/userSlice';
 import {add, addone} from './Store/itemsSlice';
 import {addBasket} from "./Store/basketSlice"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -35,6 +35,10 @@ function Home({navigation}){
         })
         .catch((err)=>console.log(err))
     }, [])
+
+
+
+
     const [count, setCount] = useState(0)
     const items = useSelector((state) => state.items.data)
 

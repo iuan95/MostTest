@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import {TextInput, StyleSheet, Text, View, Button, ScrollView} from 'react-native';
 import axios from 'axios';
-import {edituser} from "./Store/userSlice"
+import {edituser, logout} from "./Store/userSlice"
 function Profile(){
     const user = useSelector((state) => state.user)
     const [edit, setEdit] = useState(false)
@@ -12,7 +12,36 @@ function Profile(){
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
     const [age, setAge] = useState('')
-    const [status, setSetstatus] = useState('')
+    const [status, setSetstatus] = useState(null)
+
+    useEffect(()=>{
+        axios.get("http://10.0.2.2:3007/api/getuserdata",
+        {
+          headers:{
+              authorization: `Bearer: ${user.token}`
+          }
+        }
+        )
+        .then((res)=>{
+          console.log(res.data)
+          dispatch(edituser({surname: res.data.surname, name: res.data.name, phone: res.data.phone, age: res.data.age}))
+          setSetstatus(res.data.mewssage)
+        
+        })
+        .catch(err=>{
+          console.log("данай кэлбэтэ")
+          console.log(err)
+        })
+        .finally(()=>setEdit(false))
+        
+      }, [])
+
+
+
+
+
+
+
 
     function hundleSubmit(){
         axios.post("http://10.0.2.2:3007/api/editprofile",{
@@ -28,16 +57,20 @@ function Profile(){
         }
         )
         .then((res)=>{
-            if(res.data.message === "успешно"){
-                dispatch(edituser({surname: surname, name: name, phone: phone, age: age}))
-            }
-            else setSetstatus(e=>e=res.data.message)
+            dispatch(edituser({surname: res.data.surname, name: res.data.name, phone: res.data.phone, age: res.data.age}))
+            setSetstatus(res.data.mewssage)
     
         })
         .catch(err=>console.log(err))
         .finally(()=>setEdit(false))
 
     }
+
+
+
+
+
+
     if(!edit){
         return(
             <ScrollView style={style.scr}>
@@ -54,6 +87,7 @@ function Profile(){
                     }
                     <Button title='Редактировать' onPress={()=>setEdit(true)}/>
                 </View>
+                <Button title="Выйти из аккаунта" onPress={()=>dispatch(logout())}/>
             </ScrollView>
         )
     }

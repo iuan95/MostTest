@@ -8,18 +8,23 @@ import axios from "axios"
 export const Signup = ({navigation}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [answer, setAnswer] = useState('')
+    const [answer, setAnswer] = useState(null)
+    const [status, setStatus] = useState("null")
 
-    async function hundleSubmit({navigation}){
-        console.log("asdasd")
-        setEmail("")
-        setPassword("")
+    async function hundleSubmit(){
         axios.post('http://10.0.2.2:3007/api/signup', {email, password})
-            .then((res)=>setAnswer(e=>e=res.message))
-            .then(()=>{
-                navigation.navigate('login')
+            .then(res=>{
+                setAnswer(res.data.message)
+                if(res.data.message === "Такой пользователь уже есть!"){
+                    return
+                }
+                else navigation.push('login')
             })
-            .catch(err=>console.log(err))
+            .catch(err=>{
+                console.log(err)
+                console.log("Ошибка при регистрации")
+
+            })
 
         
     }
@@ -28,15 +33,17 @@ export const Signup = ({navigation}) =>{
         <ScrollView style={style.view}>
             <View style={style.SafeAreaView}>
                 <Text style={style.text}>Регистрация</Text>
+                <Text style={{textAlign: "left", fontSize: 16}}>Почта</Text>
                 <TextInput style = {style.input}
                     placeholder="email"
                     onChangeText={setEmail}
                     value={email}
                 />
+                <Text style={{flex: 1, textAlign: "justify", fontSize: 16}}>Пароль</Text>
                 <TextInput style = {style.input}
                     onChangeText={setPassword}
                     value={password}
-                    placeholder="password"
+                    placeholder="не менее 6 символов"
                 />
                 {
                     answer?(
@@ -67,6 +74,7 @@ const style = StyleSheet.create({
         rowGap: 20,
         justifyContent: "center",
         alignItems: "center",
+        textAlign: "right"
     },
     input: {
         width: 250,
