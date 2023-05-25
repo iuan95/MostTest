@@ -84,7 +84,7 @@ router.post('/refresh', async (req, res)=>{
             const refreshToken = rt(findedUser)
             findedUser.refreshToken = refreshToken
             await findedUser.save()
-            res.status(200).json({
+            res.status(200).send({
                 accessToken: accessToken,
                 refreshToken: refreshToken,
             });

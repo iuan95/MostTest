@@ -30,8 +30,12 @@ export const userSlice = createSlice({
         },
         logout: (state) =>{
             state.email = null
+        },
+        refresh: (state, action) =>{
+            state.token = action.payload.token
+            state.refToken = action.payload.reftoken
         }
     }
 })
-export const {adduser, edituser, logout} = userSlice.actions
+export const {adduser, edituser, logout, refresh} = userSlice.actions
 export default userSlice.reducer
