@@ -12,7 +12,7 @@ export const Signup = ({navigation}) =>{
     const [status, setStatus] = useState("null")
 
     async function hundleSubmit(){
-        axios.post('http://10.0.2.2:3007/api/signup', {email, password})
+        axios.post('http://10.0.2.2:3006/api/signup', {email, password})
             .then(res=>{
                 setAnswer(res.data.message)
                 if(res.data.message === "Такой пользователь уже есть!"){

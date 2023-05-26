@@ -17,22 +17,24 @@ function Basket({navigation}){
         <ScrollView>
             {
             basket.map((i, k)=>{
-                console.log(i.images)
+                console.log(i)
+                console.log(i.item)
                 return(
                     <View style={style.view}>
                         <View>
                             <Image
                                 style={style.img}
-                                source={{uri: `${!i.images? "": i.images[0]}`}}
+                                source={{uri: `${!i.item.images? "": i.item.images[0]}`}}
                             />
                         </View>
                         <View style={{marginLeft: 10, flex: 1}}>
-                            <Text>{i.title}</Text>
-                            <Text>{i.price} $</Text>
+                            <Text>{i.item.title}</Text>
+                            <Text>{i.item.price?i.item.price:1} $</Text>
+                            <Text>{i.total} шт$</Text>
                         </View>
                         <View style={style.viewright}>
                             <Pressable style={style.btn} onPress={()=>{
-                                i.inBasket = true
+                                i.item.inBasket = true
                                 dispatch(deleteBasket(k))
                             }}>
                                 <Text>Удалить</Text>

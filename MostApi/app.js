@@ -22,7 +22,7 @@ app.get('/', (req, res)=>{
 app.use('/api', route)
 try{
     db()
-    app.listen(3007, ()=>console.log("Запустились"))
+    app.listen(3006, ()=>console.log("Запустились"))
 }
 catch(err){
     console.log(err)

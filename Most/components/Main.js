@@ -26,38 +26,38 @@ function Main({navigation}){
 
   
 
-  const refreshToken = async () => {
-    try{
-        const tokens = await axios.post('http://10.0.2.2:3007/api/refresh', 
-        {token: user.refToken},
-          {
-            headers: {
-              authorization: `Bearer: ${user.token}`
-            }
-          }
-        )
-        dispatch(refresh({token: tokens.accessToken, reftoken: tokens.refreshToken}))
-        return tokens.data
-    }
-    catch(err){
-      console.log(err)
-    }
-  }
-  axiosRefreshToken.interceptors.request.use(
-    async (config) => {
-      const time = new Date()
-      const decTok = jwtdecode(user.token)
-      if(decTok.exp * 1000 < time.getTime()){
-        const newtokens = await refreshToken();
-        config.headers['authorization'] = "Bearer " + newtokens.accessToken;
-      }
-      return config;
+  // const refreshToken = async () => {
+  //   try{
+  //       const tokens = await axios.post('http://10.0.2.2:3007/api/refresh', 
+  //       {token: user.refToken},
+  //         {
+  //           headers: {
+  //             authorization: `Bearer: ${user.token}`
+  //           }
+  //         }
+  //       )
+  //       dispatch(refresh({token: tokens.accessToken, reftoken: tokens.refreshToken}))
+  //       return tokens.data
+  //   }
+  //   catch(err){
+  //     console.log(err)
+  //   }
+  // }
+  // axiosRefreshToken.interceptors.request.use(
+  //   async (config) => {
+  //     const time = new Date()
+  //     const decTok = jwtdecode(user.token)
+  //     if(decTok.exp * 1000 < time.getTime()){
+  //       const newtokens = await refreshToken();
+  //       config.headers['authorization'] = "Bearer " + newtokens.accessToken;
+  //     }
+  //     return config;
 
-    },
-    (err) => {
-      return Promise.reject(err)
-    }
-  )
+  //   },
+  //   (err) => {
+  //     return Promise.reject(err)
+  //   }
+  // )
     
 
 

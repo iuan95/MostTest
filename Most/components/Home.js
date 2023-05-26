@@ -14,9 +14,10 @@ import Itempage from './Itempage'
 
 function Home({navigation}){
 
-
+    // const [onbasket, setOnbasket] = useState(false)
 
     const [data, setData] = useState([])
+    const [totalitem, setTotalitem] = useState([])
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -127,6 +128,7 @@ function Home({navigation}){
                 {
 
                 items.map((i)=>{
+                    // const [onbasket, setOnbasket] = useState(false)
                     if(selectedCategory !== "all"){
                         if(i.category != selectedCategory){
                             return
@@ -154,11 +156,26 @@ function Home({navigation}){
                                     <Text>{i.price} $</Text>
                                 </View>
                                 <View style={style.viewright}>
+                                    <TextInput placeholder='Кол-во' inputMode='numeric' 
+                                    onChangeText={setTotalitem} />
                                     <Pressable style={style.btn} onPress={()=>{
-                                        i.inBasket = true
-                                        dispatch(addBasket(i))
+                                        dispatch(addBasket({total: totalitem, item: i}))
+                                        // setOnbasket(true)
+                                        
+
                                     }}>
                                         <Text>В корзину</Text>
+                                        {/* <Text>{totalitem}</Text> */}
+                                        {
+                                            // onbasket?(
+                                            //     <Text>Товар в корзине</Text>
+                                            // )
+                                            // :
+                                            // (
+                                            //     <Text>В корзину</Text>
+                                            // )
+                                        }
+                                        
                                     </Pressable>
                                 </View>
                             </Pressable>
