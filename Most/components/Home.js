@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import reactNativeIcons from 'react-native-vector-icons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Itempage from './Itempage'
-
+import ItemsCard  from './ItemsCard';
 function Home({navigation}){
 
     // const [onbasket, setOnbasket] = useState(false)
@@ -70,6 +70,7 @@ function Home({navigation}){
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
+                {/* <ItemsCard/> */}
                 <View style={style.header}>
                     <TextInput
                     placeholder='Поиск'
@@ -124,68 +125,104 @@ function Home({navigation}){
                         <Picker.Item label="lighting" value="lighting" />
 
                     </Picker>
-                    {/* <Text>Abas</Text> */}
+
+
                 </View>
+                <View>
                 {
 
-                items.map((i)=>{
-                    // const [onbasket, setOnbasket] = useState(false)
-                    if(selectedCategory !== "all"){
-                        if(i.category != selectedCategory){
-                            return
-                        } 
-
-                    }
-
-
-                    if(i.title.toLowerCase().indexOf(
-                        textsearch.toLowerCase()
-                        ) === 0 ){
+                    items.map((i)=>{
+                        // console.log(i.title)
+                        // console.log(i.category)
                         return(
-                            <Pressable key={i.id} style={style.view} onPress={()=>{
-                                navigation.navigate('Card', {item: i.id})
-                                // navigation.navigate('Card')
-                            }}>
-                                <View>
-                                    <Image
-                                        style={style.img}
-                                        source={{uri: `${i.images[0]}`}}
-                                    />
-                                </View>
-                                <View style={{marginLeft: 10, flex: 1}}>
-                                    <Text>{i.title}</Text>
-                                    <Text>{i.price} $</Text>
-                                </View>
-                                <View style={style.viewright}>
-                                    <TextInput placeholder='Кол-во' inputMode='numeric' 
-                                    onChangeText={setTotalitem} />
-                                    <Pressable style={style.btn} onPress={()=>{
-                                        dispatch(addBasket({total: totalitem, item: i}))
-                                        // setOnbasket(true)
-                                        
+                            <ItemsCard i={i} selectedCategory={selectedCategory} textsearch={textsearch} addBasket={addBasket}  dispatch={dispatch}  navigation={navigation} basket={basket}/>
+                        )
 
-                                    }}>
-                                        <Text>В корзину</Text>
-                                        {/* <Text>{totalitem}</Text> */}
-                                        {
-                                            // onbasket?(
-                                            //     <Text>Товар в корзине</Text>
-                                            // )
-                                            // :
-                                            // (
-                                            //     <Text>В корзину</Text>
-                                            // )
-                                        }
-                                        
-                                    </Pressable>
-                                </View>
-                            </Pressable>
+
+                        // const [onbasket, setOnbasket] = useState(false)
+
+                        // <ItemsCard i={i} selectedCategory={selectedCategory} textsearch={textsearch} addBasket={addBasket}  dispatch={dispatch}  navigation={navigation}/>
+
+
+
+
+                        //Мантан
+
+                        // let count;
+                        // if(selectedCategory !== "all"){
+                        //     if(i.category != selectedCategory){
+                        //         return
+                        //     } 
+
+                        // }
+
+
+                        // if(i.title.toLowerCase().indexOf(
+                        //     textsearch.toLowerCase()
+                        //     ) === 0 ){
+                        //     return(
+                        //         <Pressable key={i.id} style={style.view} onPress={()=>{
+                        //             navigation.navigate('Card', {item: i.id})
+                        //             // navigation.navigate('Card')
+                        //         }}>
+                        //             <View>
+                        //                 <Image
+                        //                     style={style.img}
+                        //                     source={{uri: `${i.images[0]}`}}
+                        //                 />
+                        //             </View>
+                        //             <View style={{marginLeft: 10, flex: 1}}>
+                        //                 <Text>{i.title}</Text>
+                        //                 <Text>{i.price} $</Text>
+                        //             </View>
+                        //             <View style={style.viewright}>
+                        //                 <TextInput placeholder='Кол-во' inputMode='numeric' 
+                        //              onChangeText={setTotalitem} /> 
+                        //                 <Pressable style={style.btn} onPress={()=>{
+                        //                     dispatch(addBasket({total: totalitem, item: i}))
+
+                        //                     // setOnbasket(true)
+                                            
+
+                        //                 }}>
+                        //                     <Text>В корзину</Text>
+                        //                     {/* <Text>{totalitem}</Text> */}
+                        //                     {
+                        //                         // onbasket?(
+                        //                         //     <Text>Товар в корзине</Text>
+                        //                         // )
+                        //                         // :
+                        //                         // (
+                        //                         //     <Text>В корзину</Text>
+                        //                         // )
+                        //                     }
+                                            
+                        //                 </Pressable>
+                        //             </View>
+                        //         </Pressable>
+                        //     )
+                        // }//маныаха дылы
+
+                            
+                        } 
+                        
+                        
+                        
+                        
+                        
                         )
                     }
 
-                        
-                    })
-                }
+
+
+
+
+
+
+
+
+                </View>
+
             </ScrollView>
         ) }}
 
@@ -309,14 +346,3 @@ const style = StyleSheet.create({
     }
 })
 
-                            {/* <Text>{i.id}</Text> */}
-                            {/* <Text>{i.price}</Text>
-                            <Text>{i.discountPercentage}</Text>
-                            <Text>{i.rating}</Text>
-                            <Text>{i.stock}</Text>
-                            <Text>{i.brand}</Text>
-                            <Text>{i.category}</Text>
-                            <Text>{i.thumbnail}</Text> 
-                        
-                            <Text>{i.title}</Text>
-                            <Text>{i.description}</Text>*/}

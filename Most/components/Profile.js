@@ -17,7 +17,7 @@ function Profile(){
     const [status, setSetstatus] = useState(null)
 
     useEffect(()=>{
-        axios.get("http://10.0.2.2:3006/api/getuserdata",
+        axios.get("http://10.0.2.2:3007/api/getuserdata",
         {
           headers:{
               authorization: `Bearer: ${user.token}`
@@ -46,7 +46,7 @@ function Profile(){
 
 
     function hundleSubmit(){
-        axios.post("http://10.0.2.2:3006/api/editprofile",{
+        axios.post("http://10.0.2.2:3007/api/editprofile",{
             name: name,
             surname: surname,
             phone: phone,

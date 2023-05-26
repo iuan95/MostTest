@@ -13,7 +13,7 @@ export const Login = ({navigation}) =>{
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     function hundleSubmit(){
-        axios.post('http://10.0.2.2:3006/api/login', {email, password})
+        axios.post('http://10.0.2.2:3007/api/login', {email, password})
             .then((res)=>{
                 dispatch(adduser({email: res.data.email, token: res.data.accessToken, refToken: res.data.refreshToken}))
             })
