@@ -35,7 +35,9 @@ function Basket({navigation}){
                         <View style={style.viewright}>
                             <Pressable style={style.btn} onPress={()=>{
                                 i.item.inBasket = true
-                                dispatch(deleteBasket(k))
+                                dispatch(deleteBasket(i))
+                                console.log("Удаляемый айтем: ")
+                                console.log(i)
                             }}>
                                 <Text>Удалить</Text>
                             </Pressable>

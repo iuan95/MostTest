@@ -17,7 +17,8 @@ function Home({navigation}){
     // const [onbasket, setOnbasket] = useState(false)
 
     const [data, setData] = useState([])
-    const [totalitem, setTotalitem] = useState([])
+    // const [totalitem, setTotalitem] = useState([])
+    const [totalitem, setTotalitem] = useState(1)
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
         setRefreshing(true);
