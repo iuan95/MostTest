@@ -31,6 +31,8 @@ function Home({navigation}){
     useEffect(()=>{
         axios.get("https://dummyjson.com/products")
         .then((res)=>{
+            console.log("res: ------------------------------------")
+            console.log(res.data)
             setData(res.data.products)
             dispatch(add(res.data.products))
 

@@ -6,12 +6,7 @@ function BasketCard(props){
     //новое
     const [total2, setTotal2] = useState(null)
     const [total1, setTotal1] = useState(null)
-
-
-
     function hundleTotal({itemTotal, text}){
-        console.log(itemTotal)
-        console.log(text)
         if (text > itemTotal){
             setTotal(itemTotal)
         }

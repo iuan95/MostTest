@@ -18,7 +18,6 @@ export const basketSlice = createSlice({
 
             })
             state.data = [...state.data, {total: action.payload.total, item: action.payload.item}]
-            // state.data = [...state.data, {total: action.payload.total, item: action.payload.item}]
         },
         deleteBasket: (state, action) =>{
             state.data = state.data.filter((i, index)=>{

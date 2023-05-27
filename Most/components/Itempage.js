@@ -19,7 +19,7 @@ function Itempage({route, navigation}){
         return;
     })
 
-    console.log(item)
+    // console.log(item)
     if(item){
         return(
             <ScrollView style={{backgroundColor:"white",

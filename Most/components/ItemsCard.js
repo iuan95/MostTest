@@ -10,23 +10,20 @@ const ItemsCard = (props) =>{
     const [inBasket, setInBasket] = useState(false)
     useEffect(()=>{
         props.basket.filter(i=>{
+            setInBasket(false)
+            console.log(inBasket)
             if(i.item.id === props.i.id){
-                console.log(i.item.id)
-                console.log(props.i.id)
+                // console.log(i.item.id)
+                // console.log(props.i.id)
                 setInBasket(true)
             }
             else setInBasket(false)
         })
     
-    }, [] )
+    }, [inBasket] )
+    // useEffect(()=>{
 
-
-
-
-
-
-
-
+    // }, [props])
 
         if(props.selectedCategory !== "all"){
             if(props.i.category != props.selectedCategory){
@@ -55,8 +52,6 @@ const ItemsCard = (props) =>{
                             onChangeText={setTotalitem} /> 
                         <Pressable style={style.btn} onPress={()=>{
                             props.dispatch(props.addBasket({total: totalitem, item: props.i}))
-                            // setOnbasket(true)
-                            props.i.onbasket = true
                             setInBasket(true)
                             setTotalitem(1)
                         }}>
