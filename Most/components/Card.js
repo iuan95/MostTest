@@ -3,10 +3,6 @@ import { RefreshControl, Text, View, Button, ScrollView, StyleSheet, Image, Pres
 
 
 
-
-
-
-
  export function Card({i,selectedCategory,textsearch,addBasket,  navigation}){
     const [onbasket, setOnbasket] = useState(false)
     const [totalitem, setTotalitem] = useState(1)

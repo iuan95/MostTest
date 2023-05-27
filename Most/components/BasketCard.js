@@ -22,7 +22,7 @@ function BasketCard(props){
 
     // }[])
          return(
-                <View style={style.view}>
+                <View key={props.i.item.id} style={style.view}>
                     <View>
                         <Image
                             style={style.img}
@@ -32,18 +32,22 @@ function BasketCard(props){
                     <View style={{marginLeft: 10, flex: 1}}>
                         <Text>{props.i.item.title}</Text>
                         <Text>{props.i.item.price?props.i.item.price:1} $</Text>
-                        <Text>{props.i.total} шт$</Text>
+                        <Text style={{fontSize: 14, color: "red"}} >{props.i.total} шт</Text>
                     </View>
                     <View style={style.viewright}>
-                        <TextInput placeholder='Кол-во' maxLength={props.i.total.length} inputMode='numeric' onChangeText={e=>hundleTotal({itemTotal: props.i.total ,text:e})} value={total}/>
-                        {/* <TextInput placeholder='Кол-во' maxLength={props.i.total.length} inputMode='numeric' onChangeText={e=>hundleTotal({itemTotal: props.i.total ,text:e})} value={total}/> */}
 
-                        <Pressable style={style.btn} onPress={()=>{
-                            props.dispatch(props.deleteBasket({i: props.i, total: total?total:1}))
-                            setTotal(1)
-                        }}>
-                            <Text>Удалить</Text>
-                        </Pressable>
+                        <View style={{flex: 1, flexDirection: "row"}}>
+                            <TextInput style={style.input} placeholder='Кол-во' maxLength={props.i.total.length} inputMode='numeric' onChangeText={e=>hundleTotal({itemTotal: props.i.total ,text:e})} value={total}/>
+                            {/* <TextInput placeholder='Кол-во' maxLength={props.i.total.length} inputMode='numeric' onChangeText={e=>hundleTotal({itemTotal: props.i.total ,text:e})} value={total}/> */}
+
+                            <Pressable style={style.btn} onPress={()=>{
+                                props.dispatch(props.deleteBasket({i: props.i, total: total?total:1}))
+                                setTotal(1)
+                            }}>
+                                <Text style={{textAlign: "center"}}>Удалить</Text>
+                            </Pressable>
+                        </View>
+
                         <Pressable style={style.btn} onPress={()=>{
                             props.dispatch(props.deleteAllBasket(props.i))
                         }}>
@@ -97,12 +101,19 @@ const style = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         backgroundColor: "#ffa695",
+        alignItems: "center",
+        justifyContent: "center",
     },
     viewright:{
         flex: 1,
         alignItems: "flex-end",
         justifyContent: "center",
+        rowGap: 20,
         
+    },
+    input: {
+        borderRadius: 5,
+        backgroundColor: "#b4b4b4"
     }
 })
 export default BasketCard;

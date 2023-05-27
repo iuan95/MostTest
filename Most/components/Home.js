@@ -12,12 +12,12 @@ import reactNativeIcons from 'react-native-vector-icons'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Itempage from './Itempage'
 import ItemsCard  from './ItemsCard';
+
+
+
+
 function Home({navigation}){
-
-    // const [onbasket, setOnbasket] = useState(false)
-
     const [data, setData] = useState([])
-    // const [totalitem, setTotalitem] = useState([])
     const [totalitem, setTotalitem] = useState(1)
     const [refreshing, setRefreshing] = useState(false);
     const onRefresh = useCallback(() => {
@@ -37,9 +37,6 @@ function Home({navigation}){
         })
         .catch((err)=>console.log(err))
     }, [])
-
-
-
 
     const [count, setCount] = useState(0)
     const items = useSelector((state) => state.items.data)
@@ -70,7 +67,6 @@ function Home({navigation}){
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
             >
-                {/* <ItemsCard/> */}
                 <View style={style.header}>
                     <TextInput
                     placeholder='Поиск'
@@ -84,26 +80,21 @@ function Home({navigation}){
                     }}
                                       
                     />
-
                           {/* {search} */}
                     <View style={{
                         flex: 1,
                         alignItems:"center",
                         justifyContent: "center",
                     }}>
-
                         <Pressable>
                             {menu}
                         </Pressable>
-
                     </View>
-
                 </View>
                 <View>
                     <Picker
                         selectedValue = {selectedCategory}
-                        onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}
-                    >
+                        onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}>
                         <Picker.Item label="Все Категории" value="all" />
                         <Picker.Item label="laptops" value="laptops" />
                         <Picker.Item label="fragrances" value="fragrances" />
@@ -123,115 +114,24 @@ function Home({navigation}){
                         <Picker.Item label="automotive" value="automotive" />
                         <Picker.Item label="motorcycle" value="motorcycle" />
                         <Picker.Item label="lighting" value="lighting" />
-
                     </Picker>
-
-
                 </View>
                 <View>
-                {
-
+                    {
                     items.map((i)=>{
-                        // console.log(i.title)
-                        // console.log(i.category)
                         return(
                             <ItemsCard i={i} selectedCategory={selectedCategory} textsearch={textsearch} addBasket={addBasket}  dispatch={dispatch}  navigation={navigation} basket={basket}/>
-                        )
-
-
-                        // const [onbasket, setOnbasket] = useState(false)
-
-                        // <ItemsCard i={i} selectedCategory={selectedCategory} textsearch={textsearch} addBasket={addBasket}  dispatch={dispatch}  navigation={navigation}/>
-
-
-
-
-                        //Мантан
-
-                        // let count;
-                        // if(selectedCategory !== "all"){
-                        //     if(i.category != selectedCategory){
-                        //         return
-                        //     } 
-
-                        // }
-
-
-                        // if(i.title.toLowerCase().indexOf(
-                        //     textsearch.toLowerCase()
-                        //     ) === 0 ){
-                        //     return(
-                        //         <Pressable key={i.id} style={style.view} onPress={()=>{
-                        //             navigation.navigate('Card', {item: i.id})
-                        //             // navigation.navigate('Card')
-                        //         }}>
-                        //             <View>
-                        //                 <Image
-                        //                     style={style.img}
-                        //                     source={{uri: `${i.images[0]}`}}
-                        //                 />
-                        //             </View>
-                        //             <View style={{marginLeft: 10, flex: 1}}>
-                        //                 <Text>{i.title}</Text>
-                        //                 <Text>{i.price} $</Text>
-                        //             </View>
-                        //             <View style={style.viewright}>
-                        //                 <TextInput placeholder='Кол-во' inputMode='numeric' 
-                        //              onChangeText={setTotalitem} /> 
-                        //                 <Pressable style={style.btn} onPress={()=>{
-                        //                     dispatch(addBasket({total: totalitem, item: i}))
-
-                        //                     // setOnbasket(true)
-                                            
-
-                        //                 }}>
-                        //                     <Text>В корзину</Text>
-                        //                     {/* <Text>{totalitem}</Text> */}
-                        //                     {
-                        //                         // onbasket?(
-                        //                         //     <Text>Товар в корзине</Text>
-                        //                         // )
-                        //                         // :
-                        //                         // (
-                        //                         //     <Text>В корзину</Text>
-                        //                         // )
-                        //                     }
-                                            
-                        //                 </Pressable>
-                        //             </View>
-                        //         </Pressable>
-                        //     )
-                        // }//маныаха дылы
-
-                            
-                        } 
-                        
-                        
-                        
-                        
-                        
-                        )
+                        )} ) 
                     }
-
-
-
-
-
-
-
-
-
                 </View>
-
             </ScrollView>
         ) }}
-
 export default Home;
 
 
 
 
-
+//нижняя навигация
 
 const HomeStackNav = createNativeStackNavigator()
 export const HomeStack = ({navigation}) =>{
@@ -253,7 +153,6 @@ export const HomeStack = ({navigation}) =>{
                     onPress={()=>navigation.navigate("Basket")}
                     style={{
                         position: "relative",
-                        // backgroundColor: "white",
                         width: 40,
                     }}>
                         <View style={{position: "relative"}}>

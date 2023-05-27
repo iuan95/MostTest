@@ -4,7 +4,7 @@ import { RefreshControl, Text, View, Button, ScrollView, StyleSheet, Image, Pres
 
 // function ItemsCard({i,selectedCategory,textsearch,addBasket,dispatch,  navigation}){
 const ItemsCard = (props) =>{
-
+    // console.log(props.i.onbasket)
     const [onbasket, setOnbasket] = useState(false)
     const [totalitem, setTotalitem] = useState(1)
     const [inBasket, setInBasket] = useState(false)
@@ -17,7 +17,16 @@ const ItemsCard = (props) =>{
             }
             else setInBasket(false)
         })
-    }, [setInBasket] )
+    
+    }, [] )
+
+
+
+
+
+
+
+
 
         if(props.selectedCategory !== "all"){
             if(props.i.category != props.selectedCategory){
@@ -47,10 +56,12 @@ const ItemsCard = (props) =>{
                         <Pressable style={style.btn} onPress={()=>{
                             props.dispatch(props.addBasket({total: totalitem, item: props.i}))
                             // setOnbasket(true)
+                            props.i.onbasket = true
                             setInBasket(true)
                             setTotalitem(1)
                         }}>
                             {
+                                
                                 inBasket?(
                                     <Text>Товар в корзине</Text>
                                 )

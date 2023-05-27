@@ -49,7 +49,7 @@ function Itempage({route, navigation}){
                     
                     }} 
                     onPress={()=>{
-                    dispatch(addBasket(item))}}>
+                    dispatch(addBasket({item:item, total: 1}))}}>
                     <Text style={{fontSize: 17,}}>В корзину</Text>
                 </Pressable>
             </ScrollView>
